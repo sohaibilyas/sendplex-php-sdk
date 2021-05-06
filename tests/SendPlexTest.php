@@ -26,4 +26,12 @@ class SendPlexTest extends TestCase
 
         $this->assertFalse($auth);
     }
+
+    /** @test */
+    public function it_sets_access_token_and_retrieves_it()
+    {
+        $this->sendplex->setAccessToken('user-access-token');
+
+        $this->assertStringContainsString('user-access-token', $this->sendplex->getAccessToken());
+    }
 }
