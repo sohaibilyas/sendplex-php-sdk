@@ -1,6 +1,6 @@
 {
     "name": "sohaibilyas/sendplex-php-sdk",
-    "description": "Simple PHP SDK for SendPlex API.",
+    "description": "A simple and easy to use PHP SDK for SendPlex API.",
     "keywords": [
         "sohaibilyas",
         "sendplex-php-sdk"
