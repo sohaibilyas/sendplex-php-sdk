@@ -37,6 +37,8 @@ class SendPlex
                     'Authorization' => 'Bearer ' . $this->response->access_token
                 ]]);
 
+                $this->accessToken = $this->response->access_token;
+
                 return true;
             }
         } catch (ClientException $e) {
@@ -57,7 +59,7 @@ class SendPlex
 
     public function getAccessToken()
     {
-        return $this->response->access_token;
+        return $this->accessToken;
     }
 
     public function account()
