@@ -12,4 +12,4 @@ before_script:
   - travis_retry composer update ${COMPOSER_FLAGS}
 
 script:
-  - composer test
+  - vendor/bin/phpunit
