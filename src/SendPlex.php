@@ -15,7 +15,6 @@ class SendPlex
 
     public function __construct()
     {
-
         $this->client = new Client(['base_uri' => self::BASE_URL]);
     }
 
@@ -25,16 +24,16 @@ class SendPlex
             $this->response = json_decode($this->client->post('login', [
                 'form_params' => [
                     'email' => $email,
-                    'password' => $password
+                    'password' => $password,
                 ],
                 'headers' => [
                     'Content-Type' => 'application/x-www-form-urlencoded',
-                ]
+                ],
             ])->getBody()->getContents());
 
-            if (!empty($this->response->access_token)) {
+            if (! empty($this->response->access_token)) {
                 $this->client = new Client(['base_uri' => self::BASE_URL, 'headers' => [
-                    'Authorization' => 'Bearer ' . $this->response->access_token
+                    'Authorization' => 'Bearer '.$this->response->access_token,
                 ]]);
 
                 $this->accessToken = $this->response->access_token;
@@ -51,7 +50,7 @@ class SendPlex
     public function setAccessToken(string $accessToken)
     {
         $this->client = new Client(['base_uri' => self::BASE_URL, 'headers' => [
-            'Authorization' => 'Bearer ' . $accessToken
+            'Authorization' => 'Bearer '.$accessToken,
         ]]);
 
         $this->accessToken = $accessToken;
