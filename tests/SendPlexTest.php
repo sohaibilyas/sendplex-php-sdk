@@ -22,9 +22,9 @@ class SendPlexTest extends TestCase
 
         if ($auth) {
             $this->assertTrue($auth);
+        } else {
+            $this->assertFalse($auth);
         }
-
-        $this->assertFalse($auth);
     }
 
     /** @test */

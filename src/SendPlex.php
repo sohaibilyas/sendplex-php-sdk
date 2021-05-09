@@ -3,7 +3,7 @@
 namespace SohaibIlyas\SendPlexPhpSdk;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\BadResponseException;
 
 class SendPlex
 {
@@ -31,26 +31,24 @@ class SendPlex
                 ],
             ])->getBody()->getContents());
 
-            if (! empty($this->response->access_token)) {
+            if (!empty($this->response->access_token)) {
                 $this->client = new Client(['base_uri' => self::BASE_URL, 'headers' => [
-                    'Authorization' => 'Bearer '.$this->response->access_token,
+                    'Authorization' => 'Bearer ' . $this->response->access_token,
                 ]]);
 
                 $this->accessToken = $this->response->access_token;
 
                 return true;
             }
-        } catch (ClientException $e) {
+        } catch (BadResponseException $e) {
             return false;
         }
-
-        return false;
     }
 
     public function setAccessToken(string $accessToken)
     {
         $this->client = new Client(['base_uri' => self::BASE_URL, 'headers' => [
-            'Authorization' => 'Bearer '.$accessToken,
+            'Authorization' => 'Bearer ' . $accessToken,
         ]]);
 
         $this->accessToken = $accessToken;
@@ -63,6 +61,26 @@ class SendPlex
 
     public function account()
     {
-        return $this->client->get('me')->getBody()->getContents();
+        return $this->toObject($this->client->get('me')->getBody()->getContents());
+    }
+
+    public function updateAccount(array $attributes)
+    {
+        try {
+            $this->client->patch('me', [
+                'form_params' => [
+                    'email' => $attributes['email'],
+                ]
+            ])->getBody()->getContents();
+
+            return true;
+        } catch (BadResponseException $e) {
+            return false;
+        }
+    }
+
+    private function toObject($response)
+    {
+        return json_decode($response);
     }
 }
